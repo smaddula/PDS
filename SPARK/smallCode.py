@@ -6,6 +6,9 @@ import module
 
 numDim = 128
 
+inputfile = "/home/sid/Downloads/spark/pdsWork/IO/Set50/OutputData/Output.txt"
+OutputDir = "/home/sid/Downloads/spark/pdsWork/diroutputTest/"
+
 def addVec(self,r):
 	a = module.InterestPoint_Info()
 	a.key = self.key
@@ -63,14 +66,15 @@ conf = (SparkConf()
          .setAppName("My app")
          .set("spark.executor.memory", "1g"))
 sc = SparkContext( conf = conf)
-sc.addPyFile(os.path.join("/home/sid/Downloads/spark/pdsWork/module.py"))
+sc.addPyFile(os.path.relpath("module.py"))
 
 #inp = sc.textFile("Testinput.txt")
 #MapOutput = inp.map(lambda s: InitializeAndReturnPair(s,False))
 
+#this will be outputted in current directory
 f=open('division.txt','wb')
 
-inp = sc.textFile("IO/testlargefile.txt")
+inp = sc.textFile(inputfile)
 MapOutput = inp.map(lambda s: InitializeAndReturnPair(s,True))
 numIter = 2
 for loop in xrange(0,numIter):
@@ -122,5 +126,5 @@ MapOutput.cache()
 keyStart=2**numIter
 for n in xrange(0,2**numIter):
 	key = keyStart+n
-	MapOutput.filter(lambda x: x[0] == key).saveAsTextFile("diroutput/"+str(key))
+	MapOutput.filter(lambda x: x[0] == key).saveAsTextFile(OutputDir+str(key))
 

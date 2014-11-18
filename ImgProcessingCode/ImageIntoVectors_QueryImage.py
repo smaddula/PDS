@@ -20,6 +20,10 @@ FileNameWithoutExtension = JustFileName.split('.',1)[0]
 FileNameExtension = FullfileName.split('.',1)[1]
 if FileNameExtension.lower() != 'jpg':
  sys.exit()
+#print FileNameWithoutExtension
+#print FileNameExtension
+#print JustFileName
+#print FullfileName
 try:
  img = cv2.imread(FullfileName)
  gray= cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -27,7 +31,6 @@ try:
  kp ,des = sift.detectAndCompute(gray,None)
  #print des
  orgkeypoints=len(des)
-  
  #print 'came here - Original no of keypoints ' + str(len(des))
  if len(des) > 1500:
   #Applying filter to reduce noise
@@ -53,4 +56,5 @@ try:
  
  #print len(des)
 except:
+ #print "Unexpected error:", sys.exc_info()[0]
  pass

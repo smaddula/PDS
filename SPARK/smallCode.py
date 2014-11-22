@@ -7,6 +7,7 @@ import module
 numDim = 128
 
 inputfile = "/home/sid/Downloads/spark/pdsWork/IO/Set50/OutputData/Output.txt"
+#inputfile = "https://s3-us-west-2.amazonaws.com/testimagesvectors/Output.txt"
 OutputDir = "/home/sid/Downloads/spark/pdsWork/diroutputTest/"
 
 def addVec(self,r):

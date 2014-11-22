@@ -1,0 +1,10 @@
+To Deploy it in EC2
+
+to start cluster command used - Go to spark ec2 folder and run below command 
+Deploy - This is the name of the keyvalue pair
+.bashrc - This has the access key id and access key token for authentication
+Deply.pem has the ssh for the keyvalue pair created
+us-west-2 - Region in which amazon clusters are deployed - Default is east ours is west-2 which is oregan 
+
+./spark-ec2 --region=us-west-2 -k Deploy -i ../../Deploy.pem -s 1 launch haha 
+

@@ -15,3 +15,21 @@ Run - chmod 600 on Deploy.pem file
 
 ./spark-ec2 --region=us-west-2 --instance-type=m1.medium -k Deploy -i ../../Deploy.pem -s 1 launch haha 
 
+To ssh into cluster 
+
+./spark-ec2 -k Deploy -i ../../Deploy.pem login haha --region=us-west-2
+
+After SSH into cluster run
+wget https://s3-us-west-2.amazonaws.com/testimagesvectors/Output.txt
+to get data into your cluster
+
+put the data into hdfs by going into the ephemeral-hdfs bin and doing hadoop fs -put input.txt TargetHDFSDir/inp.txt
+
+go to /root/ephemeral-hdfs/conf/core-site.xml to get to the element fs.default.name whose value gives the way you can access the files in hdfs
+example - hdfs://ec2-54-68-181-89.us-west-2.compute.amazonaws.com:9000/user/root/input/inp.txt
+
+use such path for bpth reading and writing
+
+
+
+

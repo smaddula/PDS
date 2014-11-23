@@ -21,15 +21,18 @@ To ssh into cluster
 
 After SSH into cluster run
 wget https://s3-us-west-2.amazonaws.com/testimagesvectors/Output.txt
-to get data into your cluster
+to get data into your cluster - This is not required if you want to read the data directly from s3 and write in s3 as well 
+                               -using input output folder paths like below
 
-put the data into hdfs by going into the ephemeral-hdfs bin and doing hadoop fs -put input.txt TargetHDFSDir/inp.txt
+inputfile = "s3n://AKIAJCR562YH2YP2CPXQ:IKPvgGvqhlND26XX8WseMQGHTxgBpWx9uFGCF3po@testimagesvectors/Output.txt"
+OutputDir = "s3n://AKIAJCR562YH2YP2CPXQ:IKPvgGvqhlND26XX8WseMQGHTxgBpWx9uFGCF3po@testinghahaoutput/testing"
 
+Its of the format  s3n://AccessKeyID:SECRET@BUCKET/Path
+
+use git clone https://github.com/smaddula/PDS.git to get code into the server
+
+#no longer required if input output is taken directly from S3 like above
 go to /root/ephemeral-hdfs/conf/core-site.xml to get to the element fs.default.name whose value gives the way you can access the files in hdfs
 example - hdfs://ec2-54-68-181-89.us-west-2.compute.amazonaws.com:9000/user/root/input/inp.txt
-
-use such path for bpth reading and writing
-
-
 
 

@@ -65,6 +65,7 @@ def drawKeyPoints(img, template, skp, tkp, num=-1):
     for i in range(num):
         pt_a = (int(tkp[i].pt[0]), int(tkp[i].pt[1]+hdif))
         pt_b = (int(skp[i].pt[0]+w2), int(skp[i].pt[1]))
+        print int(tkp[i].pt[0]), int(tkp[i].pt[1]) ,int(skp[i].pt[0]), int(skp[i].pt[1])
         cv2.line(newimg, pt_a, pt_b, (255, 0, 0))
     return newimg
 

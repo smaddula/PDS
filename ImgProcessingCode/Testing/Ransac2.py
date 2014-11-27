@@ -63,7 +63,7 @@ def drawMatches(img1, kp1, img2, kp2, matches,mask,DrawImage=1):
 		#using static angle here to draw outliers and inliers in different colors
         if mask[counter][0] != 0:
          cv2.line(out, (int(x1),int(y1)), (int(x2)+cols1,int(y2)), (random.randint(0,255), random.randint(0,255), random.randint(0,255)), 1)
-         print degree,int(x1),int(y1), int(x2),int(y2)
+         #print degree,int(x1),int(y1), int(x2),int(y2)
          cv2.putText(out, str(int(degree)) , (int(x1),int(y1)),cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,0,0),2)
          #cv2.putText(out, str(x2)+','+str(y2) , (int(x2+cols1),int(y2)),cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,0,0))
         else:

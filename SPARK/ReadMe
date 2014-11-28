@@ -24,7 +24,7 @@ wget https://s3-us-west-2.amazonaws.com/testimagesvectors/Output.txt
 to get data into your cluster - This is not required if you want to read the data directly from s3 and write in s3 as well 
                                -using input output folder paths like below
 
-inputfile = "s3n://AKIAJCR562YH2YP2CPXQ:IKPvgGvqhlND26XX8WseMQGHTxgBpWx9uFGCF3po@testimagesvectors/Output.txt"
+inputfile = "s3n://AKIAJCR562YH2YP2CPXQ:IKPvgGvqhlND26XX8WseMQGHTxgBpWx9uFGCF3po@testimagesvectors/Output.txt" //disabled key
 OutputDir = "s3n://AKIAJCR562YH2YP2CPXQ:IKPvgGvqhlND26XX8WseMQGHTxgBpWx9uFGCF3po@testinghahaoutput/testing"
 
 Its of the format  s3n://AccessKeyID:SECRET@BUCKET/Path

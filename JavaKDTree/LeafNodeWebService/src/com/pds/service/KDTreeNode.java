@@ -7,7 +7,7 @@ public class KDTreeNode {
 	public ArrayList<vectorObject> list ;
 	public float split;
 	public int DimensionID;
-	public KDTreeNode left;
+	public KDTreeNode left; //testing
 	public KDTreeNode right;
 	
 	public ArrayList<vectorObject> getList() {

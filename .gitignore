@@ -47,5 +47,5 @@ Temporary Items
 *.metadata
 *.settings
 *.exe
-RemoteSystemsTempFiles
-Servers
+RemoteSystemsTempFiles/
+Servers/

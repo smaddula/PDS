@@ -8,14 +8,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
 
 public class buildTree {
 
+	static int numReturns = 5;
 	public static ArrayList<vectorObject>  ReadFile(File f) throws FileNotFoundException, IOException
 	{
 		ArrayList<vectorObject> vectors = new ArrayList<vectorObject>();
@@ -64,6 +70,8 @@ public class buildTree {
 		while(!queue.isEmpty())
 	 	{
 			node = queue.removeFirst();
+			if(node.list.size()<15)
+				continue;
 			mean = node.getMean();
 			variance = node.GetMeanVariance(mean);
 			maxvariance = 0;
@@ -143,41 +151,59 @@ public class buildTree {
 	
 	public static ArrayList<vectorObject> searchTree(KDTreeNode root, ArrayList<vectorObject> imgVectors){
 		ArrayList<vectorObject> resultVector = new ArrayList<vectorObject>();
-		vectorObject result = new vectorObject();
 		for(vectorObject v : imgVectors){
-			result = searchVector(root,v);
-			resultVector.add(result);
+			resultVector.addAll(searchVector(root,v));
 		}
 		return resultVector;
 		
 	}
 	
-	public static vectorObject searchVector(KDTreeNode root, vectorObject imgVector){
-		while(root.left!= null || root.right != null){
-		if(imgVector.GetValueAtDimension( root.DimensionID) < root.split)
-			if(root.left != null)
-				root = root.left;
-			else 
-				root = root.right;
-		else 
-			if(root.right != null)	
-				root = root.right;
-			else
-				root= root.left;
+	public static ArrayList<vectorObject> searchVector(KDTreeNode root, vectorObject imgVector){
+		LinkedList<KDTreeNode> queue =  new LinkedList<KDTreeNode>();
+		queue.add(root);
+		KDTreeNode node;
+		ArrayList<KDTreeNode> LeavesToSearch = new ArrayList<KDTreeNode>();
+		while(!queue.isEmpty())
+		{
+			node = queue.removeFirst();
+			if(node == null)
+				continue;
+			if(node.left == null && node.right == null){
+				LeavesToSearch.add(node);
+				continue;
+			}
+			if(imgVector.GetValueAtDimension( node.DimensionID) <= Math.ceil( node.split))
+				queue.add(root.left);
+
+			if(imgVector.GetValueAtDimension( node.DimensionID) >= Math.floor( node.split))
+				queue.add(root.right);
 		}
-		if(root.list.size()==1)
-			return root.list.get(0);
-		float minDistance = Float.MAX_VALUE;
-		float distance;
-		vectorObject closestVec = root.list.get(0);
-		for(vectorObject v : root.list){
-			distance = imgVector.GetEucledeanDistance(v);
-			if(distance < minDistance){
-				minDistance = distance;
-				closestVec = v;
+		
+		PriorityQueue<DistanceVectorTuple> pqueue = new PriorityQueue<DistanceVectorTuple>(new Comparator<DistanceVectorTuple>(){
+			public int compare(DistanceVectorTuple lft , DistanceVectorTuple rgt){
+				if(lft.EucledianDistance < rgt.EucledianDistance) return 1;
+				if (lft.EucledianDistance == rgt.EucledianDistance) return 0;
+				return -1;
+			}
+		} 
+		);
+		
+		DistanceVectorTuple t ;
+		for(KDTreeNode k: LeavesToSearch){
+			for(vectorObject v : k.list){
+				t = new DistanceVectorTuple();
+				t.EucledianDistance = imgVector.GetEucledeanDistance(v);
+				t.vec = v;
+				pqueue.add(t);
+				if(pqueue.size() > numReturns) pqueue.poll();
 			}
 		}
-		return closestVec;
+		
+		ArrayList<vectorObject> rtn = new ArrayList<vectorObject>() ;
+		
+		while(!pqueue.isEmpty())
+			rtn.add(pqueue.poll().vec);
+		return rtn;
 	}
 }
 

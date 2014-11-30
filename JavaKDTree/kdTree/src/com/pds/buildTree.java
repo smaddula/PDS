@@ -6,21 +6,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Scanner;
-import java.util.stream.Collectors;
-import java.util.zip.GZIPInputStream;
-
-import org.omg.CosNaming.IstringHelper;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class buildTree {
 	static ArrayList<vectorObject> vectors = new ArrayList<vectorObject>();
@@ -178,6 +173,7 @@ public class buildTree {
 		// Map dictionary = new HashMap<String,int>();
 
 		Map<String, Integer> dictionary = new HashMap<String, Integer>();
+		Map<Integer,String> Rdictionary = new HashMap<Integer,String>();
 		int val = 0;
 		for (vectorObject v : vectors) {
 			if (dictionary.containsKey(v.name)) {
@@ -188,16 +184,29 @@ public class buildTree {
 				dictionary.put(v.name, 1);
 			}
 		}
-		String mostFrequent = "";
-		int maxcount = 0, currcount = 0;
+		String fileName;
 		for (Object key : dictionary.keySet()) {
-			currcount = (int) dictionary.get(key);
-			if (currcount > 3)
-				System.out.println(" FileName " + key
-						+ " frequency of occurences " + currcount);
-			if (maxcount < currcount) {
-				maxcount = currcount;
-				mostFrequent = (String) key;
+			if(Rdictionary.containsKey(dictionary.get(key))){
+				fileName = (String) Rdictionary.get(dictionary.get(key));
+				fileName = fileName + (String)key;
+				Rdictionary.put(dictionary.get(key),fileName);
+			}
+			else{
+				Rdictionary.put(dictionary.get(key), (String) key);
+			}
+		}
+		
+		String mostFrequent = "",currfilename;
+		int maxcount = 0;
+		SortedSet<Integer> keys = new TreeSet<Integer>(Rdictionary.keySet());
+		for (Object key : keys) {
+			currfilename = Rdictionary.get(key);
+			if ((Integer)key > 3)
+				System.out.println(" FileName " + currfilename 
+						+ " frequency of occurences " + key);
+			if (maxcount < (Integer)key) {
+				maxcount = (Integer)key;
+				mostFrequent =  currfilename;
 			}
 		}
 		return mostFrequent;

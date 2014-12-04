@@ -16,7 +16,7 @@ if numargs>4:
  smally = sys.argv[3]
  largex = sys.argv[4]
  largey = sys.argv[5]
- sessionid = sys.argv[6]
+ #sessionid = sys.argv[6]
 
 
 if not os.path.isfile(FullfileName):
@@ -62,10 +62,10 @@ try:
     sys.stdout.write('+')
    i=i+1
   sys.stdout.write('\n')
- if numargs > 4: 
-  if not os.path.exists("out/"+sessionid+"/inputImage"):
-   os.makedirs("out/"+sessionid+"/inputImage")
-  cv2.imwrite("out/"+sessionid+"/inputImage/cropped.jpg",img)
+ #if numargs > 4: 
+ # if not os.path.exists("out/"+sessionid+"/inputImage"):
+ #  os.makedirs("out/"+sessionid+"/inputImage")
+ # cv2.imwrite("out/"+sessionid+"/inputImage/cropped.jpg",img)
 
  #print len(des)
 except:

@@ -1,12 +1,16 @@
+import sys
 import numpy as np
 import cv2
 from matplotlib import pyplot as plt
 import random
 import math
 import os
+import urllib
 
 InputPath = "input"
-DatasetPath = "images"
+DatasetPath = "http://s3-us-west-2.amazonaws.com/pdsoxfordimages"
+#DatasetPath = "/home/sid/Downloads/oxfordDataset/oxbuild_images"
+
 OutputPath = "output"
 
 def eucledianDistance(a,b):
@@ -94,7 +98,11 @@ def FindClosestMatches( img1,kp1,des1,sift,path2 , DrawImage = 0 ,writeToFile = 
  #img2 = cv2.imread('images/'+'paris_eiffel_000028.jpg',0) # trainImage
  #img2 = cv2.imread('images/'+'defense_2.jpg',0)
 
- img2 = cv2.imread(path2,0)
+ req = urllib.urlopen(path2)
+ arr = np.asarray(bytearray(req.read()), dtype=np.uint8)
+ img2 = cv2.imdecode(arr,0)
+
+ #img2 = cv2.imread(path2,0)
  # Initiate SIFT detector
  
  
@@ -189,6 +197,26 @@ def FindClosestMatches( img1,kp1,des1,sift,path2 , DrawImage = 0 ,writeToFile = 
   cv2.imwrite( OutputPath+ '/'+str(writeToFile)+'.jpg',img3)
  return sum
  
+
+AllFilesDelimited = sys.argv[1]
+InputimagePath = sys.argv[2]
+
+if not os.path.exists(OutputPath):
+    os.makedirs(OutputPath)  
+SearchImages=[]
+out=[]
+print "came here"
+#for f in os.listdir(InputPath):
+ #if not os.path.isdir(f):
+inputimage= InputimagePath
+ #break
+for f in AllFilesDelimited.split(":"):
+ #if not os.path.isdir(f):
+ SearchImages.append(DatasetPath+'/'+f)
+
+print SearchImages
+print out
+'''
 if not os.path.exists(OutputPath):
     os.makedirs(OutputPath)  
 SearchImages=[]
@@ -200,10 +228,12 @@ for f in os.listdir(InputPath):
 for f in os.listdir(DatasetPath):
  if not os.path.isdir(f):
   SearchImages.append(DatasetPath+'/'+f)
-
+'''
 sift = cv2.SIFT()
 img1 = cv2.imread(inputimage,0)
 kp1, des1 = sift.detectAndCompute(img1,None)
+
+print "came here aswell after reading input points"
 
 for img in SearchImages:
  out.append( (FindClosestMatches(img1,kp1, des1,sift,img,0),img))
@@ -212,6 +242,6 @@ out.sort(reverse=True)
 #best match will be the same image at index 0
 FindClosestMatches(img1,kp1, des1,sift,out[0][1],0,0)
 FindClosestMatches(img1,kp1, des1,sift,out[1][1],0,1)
-FindClosestMatches(img1,kp1, des1,sift,out[2][1],0,2)
+'''FindClosestMatches(img1,kp1, des1,sift,out[2][1],0,2)
 FindClosestMatches(img1,kp1, des1,sift,out[3][1],0,3)
-FindClosestMatches(img1,kp1, des1,sift,out[4][1],0,4)
+FindClosestMatches(img1,kp1, des1,sift,out[4][1],0,4)'''

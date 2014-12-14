@@ -49,4 +49,4 @@ Temporary Items
 *.exe
 RemoteSystemsTempFiles/
 Servers/
-.config
+*.config

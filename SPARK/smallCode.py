@@ -6,9 +6,20 @@ import module
 
 numDim = 128
 
-inputfile = "/home/sid/Downloads/spark/pdsWork/IO/OxfordDataset/inputVectorsSmooth/Output.txt"
+ReadKey = open("test.config")
+key = ReadKey.readline().rstrip();
+secretcode = ReadKey.readline().rstrip();
+
+ReadKeySumith = open("sumith.config")
+keySumith = ReadKeySumith.readline().rstrip();
+secretcodeSumith = ReadKeySumith.readline().rstrip();
+#inputfile = "s3n://s3-us-west-2.amazonaws.com/testimagesvectors/Output.txt" 
+inputfile = "s3n://"+keySumith+":"+secretcodeSumith+"@10gbvectors/Vectors/Output.txt" 
+OutputDir = "s3n://"+key+":"+secretcode+"@testingoutput10gb/FirstAttempt/output"
+
+#inputfile = "/home/sid/Downloads/spark/pdsWork/IO/OxfordDataset/inputVectorsSmooth/Output.txt"
 #inputfile = "https://s3-us-west-2.amazonaws.com/testimagesvectors/Output.txt"
-OutputDir = "/home/sid/Downloads/spark/pdsWork/IO/OxfordDataset/OutputSplitSmooth/split"
+#OutputDir = "/home/sid/Downloads/spark/pdsWork/IO/OxfordDataset/OutputSplitSmooth/split"
 
 def addVec(self,r):
 	a = module.InterestPoint_Info()

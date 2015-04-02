@@ -1,4 +1,4 @@
-To Deploy it in EC2
+To Deploy spark code in EC2
 
 http://spark.apache.org/docs/1.0.1/ec2-scripts.html
 
